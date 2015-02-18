@@ -1,6 +1,8 @@
 package com.codepath.apps.mysimpletweets;
 
 import android.content.Context;
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import java.util.List;
  * Created by liyli on 2/4/15.
  */
 public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
+
+    final int SCREEN_NAME = 1;
 
     public TweetsArrayAdapter(Context context, List<Tweet> tweets){
         super(context, 0, tweets);
@@ -62,6 +66,16 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
         ivProfileImage.setImageResource(android.R.color.transparent); // clear out the old image for recycled view
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
 
+        // set tag and onClickListener so that clicking the profile image can go to the profile activity
+        ivProfileImage.setTag(tweet.getUser().getScreenName());
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), ProfileActivity.class);
+                i.putExtra("screen_name", (String)v.getTag());
+                getContext().startActivity(i);
+            }
+        });
 
         // return the view
         return convertView;

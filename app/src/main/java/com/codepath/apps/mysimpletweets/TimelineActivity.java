@@ -3,6 +3,8 @@ package com.codepath.apps.mysimpletweets;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
@@ -30,6 +33,7 @@ public class TimelineActivity extends ActionBarActivity {
     private TweetsArrayAdapter aTweets;
     private ListView lvTweets;
     private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class TimelineActivity extends ActionBarActivity {
         populateTimelineFirstTime();
         populateUser();
     }
+
 
     private void customLoadMoreDataFromApi(int offset){
         Log.i("INFO", "load more " + offset);
@@ -107,7 +112,7 @@ public class TimelineActivity extends ActionBarActivity {
     }
 
     private void populateUser(){
-        client.getUser(new JsonHttpResponseHandler(){
+        client.getUserInfo(new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                    user = User.fromJSON(response);

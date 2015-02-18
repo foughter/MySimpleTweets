@@ -17,9 +17,11 @@ import android.widget.Toast;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
+import org.json.JSONObject;
 
 public class ComposeTweetActivity extends ActionBarActivity {
 
@@ -43,11 +45,16 @@ public class ComposeTweetActivity extends ActionBarActivity {
         tvUserScreenName = (TextView) findViewById(R.id.tvUserScreenName);
         etTweet =(EditText)findViewById(R.id.etTweet);
 
-        user = (User)getIntent().getSerializableExtra("user");
-        if (user!=null) {
-            Picasso.with(this).load(user.getProfileImageUrl()).into(ivUserImage);
-            tvUserScreenName.setText(user.getScreenName());
-        }
+        client.getUserInfo(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                user = User.fromJSON(response);
+                if (user != null) {
+                    Picasso.with(getApplicationContext()).load(user.getProfileImageUrl()).into(ivUserImage);
+                    tvUserScreenName.setText(user.getScreenName());
+                }
+            }
+        });
 
     }
 

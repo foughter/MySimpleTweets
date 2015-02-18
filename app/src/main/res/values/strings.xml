@@ -12,5 +12,7 @@
     <string name="compose_tweet_hint">What\'s happening?</string>
     <string name="compose_hint">What\'s happening?</string>
     <string name="twitter_blue">4099FF</string>
+    <string name="title_activity_launch">LaunchActivity</string>
+    <string name="title_activity_profile">Profile</string>
 
 </resources>
